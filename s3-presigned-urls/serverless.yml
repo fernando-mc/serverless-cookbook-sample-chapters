@@ -1,0 +1,86 @@
+service: s3-presigned-urls
+
+provider:
+  name: aws
+  runtime: python3.7
+  environment:
+    RANDOM_PREFIX: REPLACE_ME
+    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    WEBSITE_BUCKET: ${self:provider.environment.RANDOM_PREFIX}-website-${opt:stage, self:provider.stage}
+    PHOTOS_BUCKET: ${self:provider.environment.RANDOM_PREFIX}-photos-${opt:stage, self:provider.stage}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:GetObject
+        - s3:PutObjectAcl
+        - s3:PutObject
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+      Resource: 
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+        - "arn:aws:s3:::${self:provider.environment.PHOTOS_BUCKET}/*"
+
+functions:
+  generateUrl:
+    handler: backend/generate_url.handler
+    events: 
+      - http:
+          path: generate
+          method: get
+          cors: true
+
+  processImage:
+    handler: backend/process_image.handler
+    timeout: 15
+    events:
+      - s3: 
+          event: s3:ObjectCreated:*  
+          bucket: ${self:provider.environment.PHOTOS_BUCKET}
+          existing: true
+
+  getColors:
+    handler: backend/get_colors.handler
+    events:
+      - http:
+          path: colors/{id}
+          method: get
+          cors: true
+
+resources:
+  Resources:
+    photosTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
+        AttributeDefinitions:
+          - AttributeName: pk
+            AttributeType: S
+        KeySchema:
+          - AttributeName: pk
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+    photosBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.environment.PHOTOS_BUCKET}
+        CorsConfiguration:
+          CorsRules:
+            - AllowedHeaders: 
+                - "*"
+              AllowedMethods: 
+                - "HEAD"
+                - "GET"
+                - "PUT"
+                - "POST"
+              AllowedOrigins: 
+                - "*"
+
+plugins:
+  - serverless-python-requirements
+  - serverless-finch
+
+custom:
+  client:
+    bucketName: ${self:provider.environment.WEBSITE_BUCKET}
+    distributionFolder: frontend
+    errorDocument: index.html

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<meta charset="utf-8">
+<head>
+<title>Serverless Color Scheme Generator</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.css">
+<script src="https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.4/dist/semantic.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.css">
+
+<style>
+    .card {
+      margin-top: 10px;
+    }
+
+    body {
+      background-color: #EDEDE8;
+    }
+
+    .main-box {
+      margin-top: 5rem;
+    }
+
+    body>.container {
+      padding: 24px;
+      background-color: #EDEDE8;
+    }
+
+    .hits-box {
+      padding: 1px 14px 12px;
+    }
+
+
+  </style>
+</head>
+
+
+<body>
+    <div class="ui top fixed stackable menu">
+      <div class="item">
+        <h2>Serverless Color Scheme Generator</h2>
+      </div>
+      <div class="right item">
+        <a href='./'>
+          <button class='ui primary button'>
+            Make another color scheme
+          </button>
+        </a>
+      </div>
+    </div>
+  
+    <div id='thebodytoo' class="ui container main-box">
+      <div class="ui grid">
+          <div class="row mobile only">
+              <br>
+              <br>
+          </div>
+      </div>
+      <div class="submit-box" id="form-div">
+        <div class="ui brown top attached segment">
+          <h3 id='uploadyourimage'>Upload your image:</h3>
+        </div>
+        <form class="ui equal width attached segment form" id="submission">
+            <div class="clsbox-1" runat="server"  >
+                <div class="dropzone clsbox" id="mydropzone">
+            
+                </div>
+            </div>
+        </form>
+      </div>
+  
+      <div class="ui horizontal divider" id="hr-divider">
+        Then
+      </div>
+  
+      <div class="rates-box">
+        <div class="ui purple top attached segment">
+          <h3>See your color scheme:</h3>
+          <div class="ui stackable grid">
+            <img id="schemeImg" class="ui centered large image" src="">
+          </div>
+        </div>
+        
+        <div class="ui attached segment">
+          <br>
+          <div class="ui three column grid">
+            <div class="ui cards" id="colors">
+              <div class="card">
+                <div id="color1" class="content">
+                  <div id="color1rgb" class="header">Color 1</div>
+                </div>
+              </div>
+              <div class="card">
+                <div id="color2" class="content">
+                  <div id="color2rgb" class="header">Color 2</div>
+                </div>
+              </div>
+              <div class="card">
+                <div id="color3" class="content">
+                  <div id="color3rgb" class="header">Color 3</div>
+                </div>
+              </div>
+              <div class="card">
+                <div id="color4" class="content">
+                  <div id="color4rgb" class="header">Color 4</div>
+                </div>
+              </div>
+              <div class="card">
+                <div id="color5" class="content">
+                  <div id="color5rgb" class="header">Color 5</div>
+                </div>
+              </div>
+              <div class="card">
+                <div id="color6" class="content">
+                  <div id="color6rgb" class="header">Color 6</div>
+                </div>
+              </div>
+            </div>
+  
+          <br>
+        </div>
+  
+      </div>
+    </div>
+    <br>
+  
+</body>
+<script src="config.js"></script>
+<script src="main.js"></script>

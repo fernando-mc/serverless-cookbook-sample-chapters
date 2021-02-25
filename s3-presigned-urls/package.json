@@ -1,0 +1,14 @@
+{
+  "name": "s3-presigned-urls",
+  "version": "1.0.0",
+  "description": "",
+  "dependencies": {},
+  "devDependencies": {
+    "serverless-finch": "^2.5.2",
+    "serverless-python-requirements": "^5.1.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Fernando Medina Corey"
+}
